@@ -5,7 +5,7 @@ import apiRoutes from './routes/api.js';
 
 
 const app = express();
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 5000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -26,9 +26,10 @@ sql.connect(dbConfig)
     });
 
 // Модели и контроллеры
-const User = require('./models/userModel');
-const Menu = require('./models/menuModel');
-const Order = require('./models/orderModel');
+const Admin = require('./models/adminModel.js');
+const User = require('./models/userModel.js');
+const Menu = require('./models/menuModel.js');
+const Order = require('./models/orderModel.js');
 
 app.use('/api', apiRoutes);
 
