@@ -1,10 +1,12 @@
-const mongoose = require('mongoose');
+import sql from 'mssql';
 
-const commentSchema = new mongoose.Schema({
-    Login: { type: String, required: true },
-    Comment: { type: String, required: true }
+const commentSchema = new sql.Table({
+    name: 'Comment',
+    columns: [
+        { name: 'ID', type: sql.Int, nullable: false, primary: true },
+        { name: 'Login', type: sql.NVarChar(50), nullable: false },
+        { name: 'Comment', type: sql.NVarChar(50), nullable: false }
+    ]
 });
 
-const Comment = mongoose.model('Comment', commentSchema);
-
-module.exports = Comment;
+export default commentSchema;
