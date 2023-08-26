@@ -1,7 +1,8 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const sql = require('mssql');
-const apiRoutes = require('./routes/api');
+import express from 'express';
+import bodyParser from 'body-parser';
+import sql from 'mssql';
+import apiRoutes from './routes/api.js';
+
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -9,7 +10,6 @@ const port = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-// Конфигурация подключения к базе данных
 const dbConfig = {
     user: 'db_a9c281_exam_admin',
     password: 'Qwerty123',
@@ -17,7 +17,6 @@ const dbConfig = {
     database: 'db_a9c281_exam',
 };
 
-// Подключение к базе данных
 sql.connect(dbConfig)
     .then(() => {
         console.log('Connected to the database');

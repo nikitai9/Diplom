@@ -15,3 +15,4 @@ router.get('/menu', menuController.getMenu);
 router.post('/create-order', orderController.createOrder);
 
 module.exports = router;
+export { router };
