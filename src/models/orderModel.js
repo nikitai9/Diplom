@@ -1,12 +1,14 @@
-const mongoose = require('mongoose');
+import sql from 'mssql';
 
-const orderSchema = new mongoose.Schema({
-    UserID: { type: Number, required: true },
-    ProductID: { type: Number, required: true },
-    Quantity: { type: Number, required: true },
-    TotalPrice: { type: Number, required: true },
+const orderSchema = new sql.Table({
+    name: 'Order',
+    columns: [
+        { name: 'ID', type: sql.Int, nullable: false, primary: true },
+        { name: 'UserID', type: sql.Int, nullable: false },
+        { name: 'ProductID', type: sql.Int, nullable: false },
+        { name: 'Quantity', type: sql.Int, nullable: false },
+        { name: 'TotalPrice', type: sql.Int, nullable: false }
+    ]
 });
 
-const Order = mongoose.model('Order', orderSchema);
-
-module.exports = Order;
+export default orderSchema;
