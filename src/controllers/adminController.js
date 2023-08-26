@@ -1,30 +1,19 @@
-const Admin = require('../models/adminModel');
+import sql from 'mssql';
+import { dbConfig } from 'src/dbConfig/dbConfig.js';
 
-exports.register = (req, res) => {
-    const adminData = req.body;
-    const newAdmin = new Admin(adminData);
+export const createAdmin = async (login, password, address, number) => {
+    try {
+        const pool = await sql.connect(dbConfig);
+        const request = pool.request();
+        request.input('Login', sql.NVarChar(50), login);
+        request.input('Password', sql.NVarChar(50), password);
+        request.input('Address', sql.NVarChar(50), address);
+        request.input('Number', sql.Int, number);
 
-    newAdmin.save((err, admin) => {
-        if (err) {
-            res.status(500).json({ error: 'Internal server error' });
-        } else {
-            res.status(201).json(admin);
-        }
-    });
-};
+        const result = await request.query(`INSERT INTO Admin (Login, Password, Address, Number) VALUES (@Login, @Password, @Address, @Number)`);
 
-exports.login = (req, res) => {
-    const { Login, Password } = req.body;
-
-    Admin.findOne({ Login, Password }, (err, admin) => {
-        if (err) {
-            res.status(500).json({ error: 'Internal server error' });
-        } else {
-            if (admin) {
-                res.status(200).json(admin);
-            } else {
-                res.status(404).json({ error: 'Admin not found' });
-            }
-        }
-    });
+        return result.recordset;
+    } catch (error) {
+        throw error;
+    }
 };
